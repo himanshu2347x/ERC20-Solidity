@@ -61,7 +61,7 @@ function Faucet({ contract, address, onSuccess, onError, loading, setLoading }) 
             onError("Contract not initialized. Please wait...");
             return;
         }
-        
+
         if (!canClaim) {
             onError(`Please wait ${formatTime(cooldown)} before claiming again`);
             return;

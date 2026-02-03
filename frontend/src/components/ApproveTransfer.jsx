@@ -185,8 +185,8 @@ function ApproveTransfer({
                     type="button"
                     onClick={() => setActiveTab("approve")}
                     className={`flex-1 py-3 px-4 rounded-lg font-semibold transition-all duration-200 ${activeTab === "approve"
-                            ? "bg-purple-500 text-white shadow-lg"
-                            : "text-slate-400 hover:text-white"
+                        ? "bg-purple-500 text-white shadow-lg"
+                        : "text-slate-400 hover:text-white"
                         }`}
                 >
                     <div className="flex items-center justify-center gap-2">
@@ -198,8 +198,8 @@ function ApproveTransfer({
                     type="button"
                     onClick={() => setActiveTab("transferFrom")}
                     className={`flex-1 py-3 px-4 rounded-lg font-semibold transition-all duration-200 ${activeTab === "transferFrom"
-                            ? "bg-purple-500 text-white shadow-lg"
-                            : "text-slate-400 hover:text-white"
+                        ? "bg-purple-500 text-white shadow-lg"
+                        : "text-slate-400 hover:text-white"
                         }`}
                 >
                     <div className="flex items-center justify-center gap-2">
