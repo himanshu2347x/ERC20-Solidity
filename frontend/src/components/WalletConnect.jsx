@@ -1,4 +1,3 @@
-import React from "react";
 
 function WalletConnect({ onConnect, loading }) {
     return (
@@ -20,11 +19,10 @@ function WalletConnect({ onConnect, loading }) {
                 </p>
 
                 <button
-                    className={`w-full py-4 px-6 rounded-xl font-semibold text-white transition-all duration-200 ${
-                        loading 
-                            ? 'bg-slate-600 cursor-not-allowed' 
+                    className={`w-full py-4 px-6 rounded-xl font-semibold text-white transition-all duration-200 ${loading
+                            ? 'bg-slate-600 cursor-not-allowed'
                             : 'bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 shadow-lg hover:shadow-purple-500/50'
-                    }`}
+                        }`}
                     onClick={onConnect}
                     disabled={loading}
                 >

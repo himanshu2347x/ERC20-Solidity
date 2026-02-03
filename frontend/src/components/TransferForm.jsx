@@ -1,4 +1,3 @@
-import React from "react";
 
 function TransferForm({ to, setTo, amount, setAmount, onTransfer, onTransferAll, loading, balance }) {
     const handleMaxClick = () => {

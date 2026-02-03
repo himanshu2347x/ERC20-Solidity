@@ -1,4 +1,3 @@
-import React from "react";
 
 function Dashboard({ address, balance, ethBalance }) {
     const formatAddress = (addr) => {

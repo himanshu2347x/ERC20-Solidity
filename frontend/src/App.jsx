@@ -1,10 +1,10 @@
-import { useState, useEffect } from "react";
 import { ethers } from "ethers";
-import WalletConnect from "./components/WalletConnect";
-import Dashboard from "./components/Dashboard";
-import TransferForm from "./components/TransferForm";
-import TransactionHistory from "./components/TransactionHistory";
+import { useEffect, useState } from "react";
 import ABI from "./abi/DevToken.json";
+import Dashboard from "./components/Dashboard";
+import TransactionHistory from "./components/TransactionHistory";
+import TransferForm from "./components/TransferForm";
+import WalletConnect from "./components/WalletConnect";
 
 const CONTRACT_ADDRESS = "0xfbfc1812559f982930760f5d74b8382633405145";
 const SEPOLIA_CHAIN_ID = "0xaa36a7"; // 11155111 in hex
@@ -101,7 +101,7 @@ function App() {
 
       // Get accounts without triggering popup
       const accounts = await metamask.request({ method: "eth_accounts" });
-      
+
       if (!accounts || accounts.length === 0) {
         console.log("No accounts connected");
         return;
@@ -141,7 +141,7 @@ function App() {
 
       // Check if MetaMask is installed
       const metamask = getMetaMaskProvider();
-      
+
       if (!metamask) {
         showNotification(
           "MetaMask not detected. Please install MetaMask extension.",
@@ -154,8 +154,8 @@ function App() {
       console.log("MetaMask detected, requesting accounts...");
 
       // Request account access - this triggers the MetaMask popup
-      const accounts = await metamask.request({ 
-        method: "eth_requestAccounts" 
+      const accounts = await metamask.request({
+        method: "eth_requestAccounts"
       });
 
       if (!accounts || accounts.length === 0) {
@@ -222,11 +222,11 @@ function App() {
 
       await loadBalances(prov, sign, addr);
       showNotification("Wallet connected successfully! 🎉", "success");
-      
+
       console.log("Successfully connected to:", addr);
     } catch (err) {
       console.error("Connection error:", err);
-      
+
       if (err.code === 4001) {
         showNotification("Connection rejected by user", "error");
       } else if (err.code === -32002) {
@@ -262,7 +262,7 @@ function App() {
 
       const ethBal = await prov.getBalance(addr);
       setEthBalance(ethers.formatEther(ethBal));
-      
+
       console.log("Balances loaded - DVT:", ethers.formatUnits(tokenBal, 18), "ETH:", ethers.formatEther(ethBal));
     } catch (error) {
       console.error("Error loading balances:", error);
@@ -319,12 +319,12 @@ function App() {
 
       await loadBalances(provider, signer, address);
       showNotification("Transfer successful! 🎉", "success");
-      
+
       setAmount("");
       setTo("");
     } catch (err) {
       console.error("Transfer error:", err);
-      
+
       if (err.code === 4001 || err.code === "ACTION_REJECTED") {
         showNotification("Transaction rejected by user", "error");
       } else if (err.message?.includes("insufficient")) {
@@ -345,12 +345,12 @@ function App() {
       showNotification("Please enter recipient address", "error");
       return;
     }
-    
+
     if (parseFloat(balance) === 0) {
       showNotification("No tokens to transfer", "error");
       return;
     }
-    
+
     setAmount(balance);
     // Wait a bit for state to update, then transfer
     setTimeout(() => transferToken(), 200);
@@ -369,21 +369,20 @@ function App() {
       {/* Notification */}
       {notification.show && (
         <div
-          className={`fixed top-4 right-4 z-50 px-6 py-4 rounded-lg shadow-2xl animate-slide-down ${
-            notification.type === "success"
+          className={`fixed top-4 right-4 z-50 px-6 py-4 rounded-lg shadow-2xl animate-slide-down ${notification.type === "success"
               ? "bg-green-500 text-white"
               : notification.type === "error"
-              ? "bg-red-500 text-white"
-              : "bg-blue-500 text-white"
-          }`}
+                ? "bg-red-500 text-white"
+                : "bg-blue-500 text-white"
+            }`}
         >
           <div className="flex items-center gap-3">
             <span className="text-xl">
               {notification.type === "success"
                 ? "✓"
                 : notification.type === "error"
-                ? "✕"
-                : "ℹ"}
+                  ? "✕"
+                  : "ℹ"}
             </span>
             <span className="font-medium">{notification.message}</span>
           </div>
@@ -405,13 +404,13 @@ function App() {
                 <span>Disconnect</span>
               </button>
             </div>
-            
+
             <Dashboard
               address={address}
               balance={balance}
               ethBalance={ethBalance}
             />
-            
+
             <TransferForm
               to={to}
               setTo={setTo}
@@ -422,7 +421,7 @@ function App() {
               loading={loading}
               balance={balance}
             />
-            
+
             <TransactionHistory transactions={txHistory} />
           </>
         )}

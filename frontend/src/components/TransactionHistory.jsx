@@ -1,4 +1,3 @@
-import React from "react";
 
 function TransactionHistory({ transactions }) {
     const formatAddress = (addr) => {
@@ -72,16 +71,14 @@ function TransactionHistory({ transactions }) {
 
                                 {tx.status && (
                                     <div className="mt-2">
-                                        <span className={`inline-flex items-center gap-1.5 px-2 py-1 rounded-full text-xs font-medium ${
-                                            tx.status === 'success' ? 'bg-green-500/20 text-green-400' :
-                                            tx.status === 'pending' ? 'bg-yellow-500/20 text-yellow-400' :
-                                            'bg-red-500/20 text-red-400'
-                                        }`}>
-                                            <span className={`w-1.5 h-1.5 rounded-full ${
-                                                tx.status === 'success' ? 'bg-green-400' :
-                                                tx.status === 'pending' ? 'bg-yellow-400 animate-pulse' :
-                                                'bg-red-400'
-                                            }`}></span>
+                                        <span className={`inline-flex items-center gap-1.5 px-2 py-1 rounded-full text-xs font-medium ${tx.status === 'success' ? 'bg-green-500/20 text-green-400' :
+                                                tx.status === 'pending' ? 'bg-yellow-500/20 text-yellow-400' :
+                                                    'bg-red-500/20 text-red-400'
+                                            }`}>
+                                            <span className={`w-1.5 h-1.5 rounded-full ${tx.status === 'success' ? 'bg-green-400' :
+                                                    tx.status === 'pending' ? 'bg-yellow-400 animate-pulse' :
+                                                        'bg-red-400'
+                                                }`}></span>
                                             {tx.status}
                                         </span>
                                     </div>
