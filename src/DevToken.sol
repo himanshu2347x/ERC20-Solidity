@@ -68,4 +68,37 @@ contract DevToken {
         emit Transfer(from, to, amount);
         return true;
     }
+
+    // Faucet function - allows anyone to get 100 DVT tokens once every 24 hours
+    uint256 public constant FAUCET_AMOUNT = 100 * 10 ** 18; // 100 DVT
+    uint256 public constant FAUCET_COOLDOWN = 24 hours;
+    
+    mapping(address => uint256) public lastFaucetTime;
+
+    event FaucetUsed(address indexed recipient, uint256 amount);
+
+    function faucet() public returns (bool) {
+        require(
+            lastFaucetTime[msg.sender] == 0 || 
+            block.timestamp >= lastFaucetTime[msg.sender] + FAUCET_COOLDOWN,
+            "faucet cooldown active"
+        );
+
+        lastFaucetTime[msg.sender] = block.timestamp;
+        balances[msg.sender] += FAUCET_AMOUNT;
+        totalSupply += FAUCET_AMOUNT;
+
+        emit FaucetUsed(msg.sender, FAUCET_AMOUNT);
+        emit Transfer(address(0), msg.sender, FAUCET_AMOUNT);
+
+        return true;
+    }
+
+    function getFaucetCooldown(address account) public view returns (uint256) {
+        uint256 nextAvailable = lastFaucetTime[account] + FAUCET_COOLDOWN;
+        if (block.timestamp >= nextAvailable) {
+            return 0;
+        }
+        return nextAvailable - block.timestamp;
+    }
 }

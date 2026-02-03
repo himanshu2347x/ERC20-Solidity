@@ -30,4 +30,31 @@ contract DevTokenTest is Test {
 
         assertEq(token.balanceOf(user), 50e18);
     }
+
+    function testFaucet() public {
+        vm.prank(user);
+        bool success = token.faucet();
+        
+        assertTrue(success);
+        assertEq(token.balanceOf(user), 100e18);
+    }
+
+    function testFaucetCooldown() public {
+        vm.prank(user);
+        token.faucet();
+
+        // Try to claim again immediately, should fail
+        vm.prank(user);
+        vm.expectRevert("faucet cooldown active");
+        token.faucet();
+
+        // Fast forward 24 hours
+        vm.warp(block.timestamp + 24 hours + 1);
+
+        // Should work now
+        vm.prank(user);
+        bool success = token.faucet();
+        assertTrue(success);
+        assertEq(token.balanceOf(user), 200e18);
+    }
 }
