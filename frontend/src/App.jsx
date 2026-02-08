@@ -291,8 +291,60 @@ function App() {
       return;
     }
 
-    setAmount(balance);
-    setTimeout(() => transferToken(), 200);
+    if (!ethers.isAddress(to)) {
+      showNotification("Invalid recipient address", "error");
+      return;
+    }
+
+    try {
+      setLoading(true);
+
+      if (!contract) {
+        showNotification("Contract not initialized", "error");
+        return;
+      }
+
+      console.log("Sending all tokens to:", to);
+      const tx = await contract.transfer(to, ethers.parseUnits(balance, 18));
+
+      showNotification("Transaction submitted! Waiting for confirmation...", "info");
+      console.log("Transaction hash:", tx.hash);
+
+      await tx.wait();
+      console.log("Transaction confirmed!");
+
+      setTxHistory((prev) => [
+        {
+          hash: tx.hash,
+          to,
+          amount: balance,
+          timestamp: new Date().toLocaleString(),
+          status: "success",
+        },
+        ...prev,
+      ]);
+
+      await loadBalances(provider, signer, address);
+      showNotification("Transfer successful! 🎉", "success");
+
+      setAmount("");
+      setTo("");
+    } catch (err) {
+      console.error("Transfer error:", err);
+
+      if (err.code === 4001 || err.code === "ACTION_REJECTED") {
+        showNotification("Transaction rejected by user", "error");
+      } else if (err.message?.includes("insufficient")) {
+        showNotification("Insufficient balance or gas", "error");
+      } else {
+        showNotification(
+          "Transaction failed: " + (err.reason || err.message || "Unknown error"),
+          "error"
+        );
+      }
+    } finally {
+      setLoading(false);
+    }
   }
 
   function showNotification(message, type) {

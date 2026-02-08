@@ -10,6 +10,7 @@ function Faucet({ contract, address, onSuccess, onError, loading, setLoading }) 
             checkCooldown();
             getFaucetAmount();
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [contract, address]);
 
     useEffect(() => {
@@ -34,7 +35,7 @@ function Faucet({ contract, address, onSuccess, onError, loading, setLoading }) 
             if (!contract) return;
             const amount = await contract.FAUCET_AMOUNT();
             const ethers = await import("ethers");
-            setFaucetAmount(ethers.ethers.formatUnits(amount, 18));
+            setFaucetAmount(ethers.formatUnits(amount, 18));
         } catch (err) {
             console.error("Error getting faucet amount:", err);
         }

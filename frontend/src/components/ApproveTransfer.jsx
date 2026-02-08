@@ -45,7 +45,7 @@ function ApproveTransfer({
             console.log("Approving spender:", spenderAddress, "for amount:", approveAmount);
             const tx = await contract.approve(
                 spenderAddress,
-                ethers.ethers.parseUnits(approveAmount, 18)
+                ethers.parseUnits(approveAmount, 18)
             );
 
             onSuccess("Approval submitted! Waiting for confirmation...", "info");
@@ -86,7 +86,7 @@ function ApproveTransfer({
             // ✅ CORRECT: Check how much the owner (fromAddress) approved YOU (address) to spend
             const allowance = await contract.allowance(fromAddress, address);
             const ethers = await import("ethers");
-            const formattedAllowance = ethers.ethers.formatUnits(allowance, 18);
+            const formattedAllowance = ethers.formatUnits(allowance, 18);
             setAllowanceCheck(formattedAllowance);
 
             if (parseFloat(formattedAllowance) === 0) {
@@ -138,7 +138,7 @@ function ApproveTransfer({
             const tx = await contract.transferFrom(
                 fromAddress,
                 toAddress,
-                ethers.ethers.parseUnits(transferAmount, 18)
+                ethers.parseUnits(transferAmount, 18)
             );
 
             onSuccess("Transfer submitted! Waiting for confirmation...", "info");
@@ -151,7 +151,7 @@ function ApproveTransfer({
 
             // Refresh allowance after transfer
             const newAllowance = await contract.allowance(fromAddress, address);
-            const newFormattedAllowance = ethers.ethers.formatUnits(newAllowance, 18);
+            const newFormattedAllowance = ethers.formatUnits(newAllowance, 18);
             setAllowanceCheck(newFormattedAllowance);
 
             setTransferAmount("");
